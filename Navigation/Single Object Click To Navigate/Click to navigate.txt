@@ -1,0 +1,32 @@
+
+void Start()
+{
+    //Get the navmeshagent
+}
+
+void Update()
+    {
+
+        if (Input.GetButtonDown("Fire1"))
+        {
+
+            var mousePosition = Input.mousePosition;
+            Debug.Log(mousePosition);
+
+            var ray = Camera.main.ScreenPointToRay(mousePosition);
+            Debug.Log("Direction:" + ray.direction);
+
+            RaycastHit hit;
+
+            if (Terrain.activeTerrain.GetComponent<Collider>().Raycast(ray,
+            out hit, 2000f)) {     var destination = hit.point;     //Bonus -
+            Instead of creating a new script, use this code in the
+            //existing Navigate script and stop the patrol coroutine
+            //When you get to that new point, resume patrolling WITH the new
+            point.
+               
+                //NOW Navigate to that point using the navmeshagent
+                //Consider making a copy of this code and only do it to this item.
+            }
+        }
+    }

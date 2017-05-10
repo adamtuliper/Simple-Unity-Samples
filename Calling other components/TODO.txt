@@ -1,0 +1,1 @@
+add Class 12 notes - both ways singleton and not

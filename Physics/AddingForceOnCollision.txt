@@ -1,0 +1,25 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class AddingForceOnCollision : MonoBehaviour {
+
+    /*
+     * This class simply adds a force on collision when it hits the player.
+     * It requires a rigidbody and collider on whomever this script is on.
+     * 
+    */
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            var rb = GetComponent<Rigidbody>();
+            rb.AddForce(new Vector3(100,200,150));
+
+            //or random force in x,y,z
+            //rb.AddForce(new Vector3(Random.Range(100,200), Random.Range(100,200), Random.Range(100,200)));
+        }
+    }
+
+}
