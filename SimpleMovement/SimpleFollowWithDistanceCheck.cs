@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SimpleFollowWithDistanceChecks : MonoBehaviour
+public class SimpleFollowWithDistanceCheck : MonoBehaviour
 {
     //4 m/s
     public int Speed = 4;
