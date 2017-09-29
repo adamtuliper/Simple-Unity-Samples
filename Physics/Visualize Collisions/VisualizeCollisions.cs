@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,6 +12,10 @@ using UnityEngine;
 /// </summary>
 public class VisualizeCollisions : MonoBehaviour
 {
+    /// <summary>
+    /// Can be a simple primitive prefab
+    /// </summary>
+    public GameObject PrefabForCollisionPoint;
     private struct ContactPointAndColor
     {
         public Color Color;
@@ -39,12 +43,7 @@ public class VisualizeCollisions : MonoBehaviour
     /// how we debug collisions, no?) :)
     /// </summary>
     public bool PersistContactVisuals = true;
-
-    // Use this for initialization
-    void Start()
-    {
-
-    }
+    
 
     // Update is called once per frame
     void Update()
@@ -60,7 +59,8 @@ public class VisualizeCollisions : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        //Choose a random color for this physics frame.
+        //Choose a random color to color 
+        //the arrows and primitives
         var color = new Color(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), 1.0f);
 
         //If we haven't filled up the contact point history
@@ -76,17 +76,28 @@ public class VisualizeCollisions : MonoBehaviour
             //but that's outside the scope of this pure C# example.
             if (CreatePrimitiveAtPoint)
             {
-                var go = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-                Destroy(go.GetComponent<SphereCollider>());
-
-                go.GetComponent<MeshRenderer>().material.SetColor("_Color", color);
-                go.transform.localScale = new Vector3(.1f, .1f, .1f);
-                go.transform.position = contact.point;
+                //Note don't use a sphere, its too many vertices to batch.
+                var go = Instantiate(PrefabForCollisionPoint, contact.point, Quaternion.identity);
+                //var go = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                Destroy(go.GetComponent<Collider>());
+                var mesh = go.GetComponent<MeshFilter>().mesh;
+                var vertices = mesh.vertices;
+                var colors = new Color[vertices.Length];
+                int q = 0;
+                while (q < vertices.Length)
+                {
+                    colors[q] = color;
+                    q++;
+                }
+                //We're using a simple vertex color shader.
+                //If you aren't using this shader you can try this to change primitive color but with more draw calls
+                //go.GetComponent<MeshRenderer>().material.SetColor("_Color", color);
+                mesh.colors = colors;
             }
 
             Debug.Log(contact.thisCollider.name + " hit at " + contact.point + " to " + contact.otherCollider.name + " Normal " + contact.normal + " separation " + contact.separation);
             var magnitude = collision.relativeVelocity.magnitude;
-
+            
             if (addPoint)
             {
                 lastContactPoint++;
@@ -98,6 +109,7 @@ public class VisualizeCollisions : MonoBehaviour
             Debug.DrawRay(contact.point, contact.normal * magnitude, color);
 
         }
+
         Debug.Log(collision.gameObject.name + " hit " + gameObject.name);
     }
 
