@@ -10,7 +10,7 @@ using UnityEngine;
 public class SimplePlayerMovement : MonoBehaviour
 {
     public float Speed = 10f;
-
+    public float SpeedMultiplier = 10f;
     // Update is called once per frame
     void Update()
     {
@@ -20,16 +20,21 @@ public class SimplePlayerMovement : MonoBehaviour
         var vertical = Input.GetAxis("Vertical") * Time.deltaTime;
 
         Debug.Log(horizontal);
-
+        
         //IE we can only move a max of (assuming Time.deltaTime has a value around .02)
         //transform.Translate(new Vector3(1 *.02, 0, 1 * .02));
         //or
         //transform.Translate(new Vector3(-1 * .02, 0, -1 * .02));
+        float finalSpeed = Speed;
 
-        transform.Translate(new Vector3(horizontal * Speed,
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            finalSpeed = Speed * SpeedMultiplier;
+        }
+                
+        transform.Translate(new Vector3(horizontal * finalSpeed,
                                         0,
-                                        vertical * Speed));
-
+                                        vertical * finalSpeed));
 
     }
 }
