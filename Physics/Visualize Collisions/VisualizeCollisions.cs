@@ -65,6 +65,9 @@ public class VisualizeCollisions : MonoBehaviour
 
         //If we haven't filled up the contact point history
         bool addPoint = lastContactPoint < contactPoints.Length - 1;
+        
+        //Create a parent game object for the collision group
+        var parentGroup = new GameObject(string.Format("Collisions between {0} / {1}  FixedUpdate#{2} ", gameObject.name, collision.gameObject.name, FixedFrameCount()));
 
         for (int i = 0; i < collision.contacts.Length; i++)
         {
@@ -78,6 +81,9 @@ public class VisualizeCollisions : MonoBehaviour
             {
                 //Note don't use a sphere, its too many vertices to batch.
                 var go = Instantiate(PrefabForCollisionPoint, contact.point, Quaternion.identity);
+                go.name = string.Format("Collision Point Group {0}", i);
+                go.transform.parent = parentGroup.transform;
+
                 //var go = GameObject.CreatePrimitive(PrimitiveType.Cube);
                 Destroy(go.GetComponent<Collider>());
                 var mesh = go.GetComponent<MeshFilter>().mesh;
@@ -93,6 +99,10 @@ public class VisualizeCollisions : MonoBehaviour
                 //If you aren't using this shader you can try this to change primitive color but with more draw calls
                 //go.GetComponent<MeshRenderer>().material.SetColor("_Color", color);
                 mesh.colors = colors;
+
+                //go.GetComponent<MeshRenderer>().material.SetColor("_Color", color);
+                //go.transform.localScale = new Vector3(.1f, .1f, .1f);
+                go.transform.position = contact.point;
             }
 
             Debug.Log(contact.thisCollider.name + " hit at " + contact.point + " to " + contact.otherCollider.name + " Normal " + contact.normal + " separation " + contact.separation);
@@ -113,4 +123,12 @@ public class VisualizeCollisions : MonoBehaviour
         Debug.Log(collision.gameObject.name + " hit " + gameObject.name);
     }
 
+    /// <summary>
+    /// Rough estimate of the physics frame this happened in 
+    /// </summary>
+    /// <returns></returns>
+    public static int FixedFrameCount()
+    {
+        return Mathf.RoundToInt(Time.fixedTime / Time.fixedDeltaTime);
+    }
 }

@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// This is a basic asdw/arrow key driven input
-/// This does not rotate the object but instead
-/// moves the object l/r/u/d in whatever direction it is facing
+/// This is a basic asdw/arrow key driven input with simple mouse look.
+/// It moves the object l/r/u/d in whatever direction it is facing
 /// </summary>
 public class SimplePlayerMovementWithMouseRotation : MonoBehaviour
 {
@@ -30,7 +29,8 @@ public class SimplePlayerMovementWithMouseRotation : MonoBehaviour
                                         0,
                                         vertical * Speed));
 
-
+        //Warning if you have a rigidbody (rb), you should be doing this with rb.MovePosition or rb.velocity
+        //and rotating with rb.rotation. See the physics folder for examples
         var euler = transform.localEulerAngles;
         euler.y += Input.GetAxis("Mouse X") * LookSpeed;
         transform.localEulerAngles = euler;
