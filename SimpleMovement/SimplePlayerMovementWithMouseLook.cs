@@ -9,6 +9,7 @@ using UnityEngine;
 public class SimplePlayerMovementWithMouseRotation : MonoBehaviour
 {
     public float Speed = 10f;
+	public float SpeedMultiplier = 10f;
     public float LookSpeed = 2f;
     // Update is called once per frame
     void Update()
@@ -24,10 +25,20 @@ public class SimplePlayerMovementWithMouseRotation : MonoBehaviour
         //transform.Translate(new Vector3(1 *.02, 0, 1 * .02));
         //or
         //transform.Translate(new Vector3(-1 * .02, 0, -1 * .02));
+        float finalSpeed;
 
-        transform.Translate(new Vector3(horizontal * Speed,
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            finalSpeed = Speed * SpeedMultiplier;
+        }
+        else
+        {
+            finalSpeed = Speed;
+        }
+        
+        transform.Translate(new Vector3(horizontal * finalSpeed,
                                         0,
-                                        vertical * Speed));
+                                        vertical * finalSpeed));
 
         //Warning if you have a rigidbody (rb), you should be doing this with rb.MovePosition or rb.velocity
         //and rotating with rb.rotation. See the physics folder for examples
