@@ -25,13 +25,17 @@ public class SimplePlayerMovement : MonoBehaviour
         //transform.Translate(new Vector3(1 *.02, 0, 1 * .02));
         //or
         //transform.Translate(new Vector3(-1 * .02, 0, -1 * .02));
-        float finalSpeed = Speed;
+        float finalSpeed;
 
         if (Input.GetKey(KeyCode.LeftShift))
         {
             finalSpeed = Speed * SpeedMultiplier;
         }
-                
+        else
+        {
+            finalSpeed = Speed;
+        }
+        
         transform.Translate(new Vector3(horizontal * finalSpeed,
                                         0,
                                         vertical * finalSpeed));
