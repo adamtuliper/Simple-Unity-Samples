@@ -6,7 +6,7 @@ using UnityEngine;
 /// This is a basic asdw/arrow key driven input with simple mouse look.
 /// It moves the object l/r/u/d in whatever direction it is facing
 /// </summary>
-public class SimplePlayerMovementWithMouseRotation : MonoBehaviour
+public class SimplePlayerMovementWithMouseLook : MonoBehaviour
 {
     public float Speed = 10f;
 	public float SpeedMultiplier = 10f;
