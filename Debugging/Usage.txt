@@ -1,0 +1,5 @@
+public void Awake()
+{
+       //Optional System.Diagnostics.Debug.Listeners.Clear();
+        System.Diagnostics.Debug.Listeners.Add(new UnityConsoleDebugTraceListener());
+}
