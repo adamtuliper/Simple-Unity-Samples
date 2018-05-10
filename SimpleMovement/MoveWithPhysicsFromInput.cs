@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MoveWithPhysicsAndInput : MonoBehaviour
+public class MoveWithPhysicsFromInput : MonoBehaviour
 {
     private Rigidbody _rigidbody;
     private float _horizontal;

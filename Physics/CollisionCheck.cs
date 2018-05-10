@@ -21,6 +21,13 @@ public class CollisionCheck : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Reqires at least one of the game objects in the collision to have a trigger on it.
+    /// This code will be called (ie OnTriggerEnter code) on any of the objects involved in the trigger event
+    /// regardless if they have a trigger setup on them or not. This also requires (just like OnCollisionX) that one of the
+    /// game objects has a rigidbody on it as well.
+    /// </summary>
+    /// <param name="other"></param>
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
